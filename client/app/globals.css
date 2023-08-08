@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.input-container{
+  @apply flex flex-col p-2 gap-2 w-full
+}
+
+.input-container input{
+  @apply w-[30dvw] p-2 border
+}

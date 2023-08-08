@@ -17,11 +17,11 @@ function Login({}: Props) {
                   <label htmlFor="password">Password: </label>
                   <input type="password" name='password' placeholder='enter password' id='password' />
               </div>
-              <a><Link href={'forgot password'}>Forgot password?</Link></a>
+              <Link href={'forgot-password'}>Forgot password?</Link>
               <button className='p-2 border bg-blue-400 rounded-sm text-white mt-5'>
                   Sign in
               </button>
-              <p>Don&apos;t have an account yet? <a><Link href={'/signup'}>Create One!</Link></a></p>
+              <p>Don&apos;t have an account yet? <Link href={'/signup'}>Create One!</Link></p>
 
           </div>
 

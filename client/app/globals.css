@@ -9,3 +9,11 @@
 .input-container input{
   @apply w-[30dvw] p-2 border
 }
+
+a{
+  @apply text-blue-300 block text-[0.9rem]
+}
+
+p{
+  @apply mt-5
+}

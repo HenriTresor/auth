@@ -40,10 +40,10 @@ export default function Home() {
   }, [])
 
   const logout = () => {
+    router.push('/login')
     setIsLoggedIn(false)
     setUser(null)
     localStorage.removeItem('access_token')
-    router.push('/login')
   }
 
   if (isLoading) {

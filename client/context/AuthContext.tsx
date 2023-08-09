@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 
 type Props = {
@@ -10,6 +11,7 @@ export const AuthData = React.createContext<null | any>(null)
 
 function AuthContext({ children }: Props) {
 
+    const router= useRouter()
     const [user, setUser] = useState({})
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const value = {
@@ -18,6 +20,9 @@ function AuthContext({ children }: Props) {
         isLoggedIn,
         setIsLoggedIn
     }
+    useEffect(() => {
+        localStorage.getItem('access_token') ? router.push('/') : router.push('/login')
+    })
     return (
         <AuthData.Provider value={value}>{children}</AuthData.Provider>
     )

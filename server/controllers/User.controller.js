@@ -110,7 +110,8 @@ export const verifyAccount = async (req, res, next) => {
             message: 'email verified successfully'
         });
     } catch (error) {
-        res.status(400).send("An error occured");
+        console.log(error.message)
+        res.status(500).send("An error occured");
     }
 }
 

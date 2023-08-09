@@ -77,8 +77,10 @@ function Login({ }: Props) {
                     <input onChange={(e) => handleChange(e)} type="password" name='password' placeholder='enter password' id='password' />
                 </div>
                 <Link href={'forgot-password'}>Forgot password?</Link>
-                <button className='p-2 border bg-blue-400 rounded-sm text-white mt-5' onClick={handleSubmit}>
-                    Sign in
+                <button className='p-2 border bg-blue-400 rounded-sm text-white mt-5 disabled:bg-gray-100' disabled={isLoading} onClick={handleSubmit}>
+                    {
+                        isLoading ? 'signing in' : 'sign in'
+                    }
                 </button>
                 <p>Don&apos;t have an account yet? <Link href={'/signup'}>Create One!</Link></p>
 

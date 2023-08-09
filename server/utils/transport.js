@@ -6,18 +6,18 @@ config()
 const sendEmail = async (email, subject, text) => {
     try {
         const transporter =  nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
+            host: process.env.EMAIL_HOST,
+            port: 587,
             secure: true,
-            service:'gmail',
+            // service:'gmail',
             auth: {
-                user: 'shimwamahenritresor@gmail.com',
+                user: process.env.USERNAME,
                 pass: process.env.PASS,
             },
         });
 
         await transporter.sendMail({
-            from: 'shimwamanahenritresor@gmail.com',
+            from: process.env.USERNAME,
             to: email,
             subject: subject,
             text: text,

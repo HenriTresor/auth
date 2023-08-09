@@ -96,7 +96,7 @@ export default function Home() {
         {error.status && (
           <p className='text-center p-2 bg-red-300 text-white'>*{error.message}</p>
         )}
-        <div className='w-[100px] h-[100px] bg-gray-100 rounded-full'>
+        <div className='w-[100px] h-[100px] bg-gray-300 rounded-full'>
 
         </div>
 

@@ -52,6 +52,7 @@ export default function Home() {
   }
 
   const verifyAccount = async () => {
+    setIsLoading(true)
     try {
 
       const res = await fetch('https://auth-server-dui2.onrender.com/api/v1/users/requestToken', {
@@ -62,7 +63,7 @@ export default function Home() {
         body: JSON.stringify({ userId: user?._id, token_type: 'account_verification' })
       })
       const data = await res.json()
-
+      setIsLoading(false)
       if (data.status) {
         alert(data.message)
         return

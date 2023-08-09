@@ -90,9 +90,12 @@ function Signup({ }: Props) {
                     <input onChange={(e) => handleChange(e)} type="password" name='password' placeholder='password' id='password' />
                 </div>
                 <button
+                    disabled={isLoading}
                     onClick={handleSubmit}
-                    className='p-2 border bg-blue-400 rounded-sm text-white mt-5'>
-                    create account
+                    className='p-2 border bg-blue-400 rounded-sm disabled:bg-gray-100 text-white mt-5'>
+                    {
+                        isLoading ? 'loading' : 'create account'
+                    }
                 </button>
                 <p>Already have an account? <a><Link href={'/login'}>Login</Link></a></p>
             </div>

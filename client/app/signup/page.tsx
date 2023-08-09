@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Link from 'next/link'
 import { AuthData } from '@/context/AuthContext'
 import { useRouter } from 'next/navigation'
@@ -10,7 +10,11 @@ type Props = {}
 
 function Signup({ }: Props) {
 
+  
     const router = useRouter()
+    useEffect(() => {
+        localStorage.getItem('access_token') && router.push('/')
+    }, [])
     const { setUser, setIsLoggedIn } = useContext(AuthData)
     const [inputValues, setInputValues] = useState({
         email: '',

@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const router = useRouter()
+  useEffect(() => {
+    !localStorage.getItem('access_token') && router.push('/login')
+  },[])
   const { user, setUser, setIsLoggedIn, isLoggedIn } = useContext(AuthData)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setIsError] = useState({

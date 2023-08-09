@@ -20,9 +20,6 @@ function AuthContext({ children }: Props) {
         isLoggedIn,
         setIsLoggedIn
     }
-    useEffect(() => {
-        localStorage.getItem('access_token') ? router.push('/') : router.push('/login')
-    })
     return (
         <AuthData.Provider value={value}>{children}</AuthData.Provider>
     )

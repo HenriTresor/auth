@@ -10,6 +10,10 @@ const tokenSchema = new Schema({
         type: String,
         required: true,
     },
+    token_type: {
+        type: String,
+        enum:['account_verification', 'password_reset']
+    }
 }, {
     timestamps: true
 });

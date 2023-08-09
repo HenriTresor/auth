@@ -1,5 +1,5 @@
 'use client'
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect, useCallback } from 'react'
 import { AuthData } from '@/context/AuthContext'
 import { useRouter } from 'next/navigation'
 
@@ -14,6 +14,7 @@ export default function Home() {
     status: false,
     message: ''
   })
+
 
   const getUser = async () => {
     const res = await fetch('https://auth-server-dui2.onrender.com/api/v1/auth/profile', {

@@ -14,7 +14,7 @@ export const createUser = async (req, res, next) => {
         const { value, error } = UserValidObject.validate(req.body)
 
         if (error) {
-            return res.status(400).json({status:false, message:error.details[0].message})
+            return res.status(400).json({ status: false, message: error.details[0].message })
         }
         // check if user already exists
 
@@ -34,7 +34,7 @@ export const createUser = async (req, res, next) => {
 
         await newUser.save()
         const access_token = await createToken(newUser._id)
-        res.status(201).json({ status: true, access_token, user: _.pick(newUser, ['_id','fullName', 'email', 'username', 'verified', 'createdAt']) })
+        res.status(201).json({ status: true, access_token, user: _.pick(newUser, ['_id', 'fullName', 'email', 'username', 'verified', 'createdAt']) })
     } catch (error) {
         console.log('error creating user', error.message)
         next(errorResponse(500, 'Unexpected error occurred'))
@@ -44,17 +44,19 @@ export const createUser = async (req, res, next) => {
 export const requestVerifyToken = async (req, res, next) => {
     try {
 
-        let { userId } = req.body
+        let { userId, token_type } = req.body
         let user = await User.findById(userId)
         if (!user) return res.status(404).json({ status: false, message: 'user was not found' })
 
         let token = new Token({
             userId: user._id,
             token: crypto.randomBytes(32).toString("hex"),
+            token_type
         })
 
-        const message = `${process.env.BASE_URL}/user/verify/${user._id}/${token.token}`;
-        const nodeRes = await sendEmail(user.email, "Verify Email", message);
+        const verifyMessage = `${process.env.BASE_URL}/user/verify/${user._id}/${token.token}`;
+        const resetMessage = `${process.env.BASE_URL}/password/reset/${user._id}/${token.token}`
+        const nodeRes = await sendEmail(user.email, "Verify Email", token_type === 'password_reset' ? resetMessage : verifyMessage);
 
         if (nodeRes === true) {
             await token.save()

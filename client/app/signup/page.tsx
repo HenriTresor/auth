@@ -14,7 +14,7 @@ function Signup({ }: Props) {
     const router = useRouter()
     useEffect(() => {
         localStorage.getItem('access_token') && router.push('/')
-    }, [])
+    }, [router])
     const { setUser, setIsLoggedIn } = useContext(AuthData)
     const [inputValues, setInputValues] = useState({
         email: '',

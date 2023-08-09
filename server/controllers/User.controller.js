@@ -9,12 +9,10 @@ import crypto from 'crypto'
 
 export const createUser = async (req, res, next) => {
     try {
-        // validate user
 
         const { value, error } = UserValidObject.validate(req.body)
 
         if (error) {
-
             return next(errorResponse(400, error.details[0].message))
         }
         // check if user already exists
@@ -33,17 +31,30 @@ export const createUser = async (req, res, next) => {
             password: hashedPwd
         })
 
+        await newUser.save()
+        res.status(201).json({ status: true, user: _.pick(newUser, ['fullName', 'email', 'username', 'verified', 'createdAt']) })
+    } catch (error) {
+        console.log('error creating user', error.message)
+        next(errorResponse(500, 'Unexpected error occurred'))
+    }
+}
+
+export const requestVerifyToken = async (req, res, next) => {
+    try {
+
+        let { userId } = req.body
+        let user = await User.findById(userId)
+        if (!user) return res.status(404).json({status:false, message:'user was not found'})
 
         let token = new Token({
-            userId: newUser._id,
+            userId: user._id,
             token: crypto.randomBytes(32).toString("hex"),
         })
 
-        const message = `${process.env.BASE_URL}/user/verify/${newUser._id}/${token.token}`;
-        const nodeRes = await sendEmail(newUser.email, "Verify Email", message);
+        const message = `${process.env.BASE_URL}/user/verify/${user._id}/${token.token}`;
+        const nodeRes = await sendEmail(user.email, "Verify Email", message);
 
         if (nodeRes === true) {
-            await newUser.save()
             await token.save()
             res.status(200).json({
                 status: true,
@@ -58,13 +69,11 @@ export const createUser = async (req, res, next) => {
             })
         }
 
-       
     } catch (error) {
-        console.log('error creating user', error.message)
-        next(errorResponse(500, 'Unexpected error occurred'))
+        console.log('error requesting verifyToken', error.message)
+        res.status(500).json({status:false, message:'an error occurred'})
     }
 }
-
 
 export const verifyAccount = async (req, res, next) => {
     try {

@@ -60,7 +60,7 @@ export const requestVerifyToken = async (req, res, next) => {
             token_type
         })
 
-        const verifyMessage = `${process.env.BASE_URL}/users/verify/${user._id}/${token.token}`;
+        const verifyMessage = `${process.env.BASE_URL}/api/v1/users/verify/${user._id}/${token.token}`;
         const resetMessage = `${process.env.BASE_URL}/password/reset/${user._id}/${token.token}`
         const nodeRes = await sendEmail(user.email, "Verify Email", token_type === 'password_reset' ? resetMessage : verifyMessage);
 

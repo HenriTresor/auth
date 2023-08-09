@@ -1,8 +1,12 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
+
 
 type Props = {}
 
-function ForgotPassword({}: Props) {
+function ForgotPassword({ }: Props) {
+  
+  const [email, setEmail] = useState('')
   return (
       <div className='w-full min-h-screen flex items-center justify-center'>
           <div className='shadow-md p-2 border'>

@@ -44,8 +44,14 @@ export const createUser = async (req, res, next) => {
 export const requestVerifyToken = async (req, res, next) => {
     try {
 
-        let { userId, token_type } = req.body
-        let user = await User.findById(userId)
+        let { userId, token_type, email } = req.body
+        let user;
+        if (email) {
+            user = await User.findOne({ email })
+        }
+        else {
+            user = await User.findById(userId)
+        }
         if (!user) return res.status(404).json({ status: false, message: 'user was not found' })
 
         let token = new Token({
@@ -62,7 +68,7 @@ export const requestVerifyToken = async (req, res, next) => {
             await token.save()
             res.status(200).json({
                 status: true,
-                message: 'a message was sent to your email. Please check to verify your account'
+                message: 'a link was sent to your email address. Please check.'
             })
             return
         } else {
@@ -110,3 +116,11 @@ export const verifyAccount = async (req, res, next) => {
 
 
 
+
+export const resetPassword = async (req, res, next) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}

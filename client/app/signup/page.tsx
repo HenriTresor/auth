@@ -1,9 +1,16 @@
-import React from 'react'
+'use client'
+
+import React, {useState} from 'react'
 import Link from 'next/link'
 
 type Props = {}
 
-function Signup({}: Props) {
+
+function Signup({ }: Props) {
+    
+    const [inputValues, setInputValues] = useState({
+        
+    })
   return (
       <div className='w-full min-h-screen flex items-center justify-center'>
           <div className='shadow-md p-2 border'>

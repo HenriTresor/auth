@@ -6,6 +6,7 @@ import UserValidObject from "../validators/User.joi.js";
 import Token from "../models/Token.model.js";
 import sendEmail from "../utils/transport.js";
 import crypto from 'crypto'
+import createToken from '../utils/createToken.js'
 
 export const createUser = async (req, res, next) => {
     try {
@@ -32,7 +33,8 @@ export const createUser = async (req, res, next) => {
         })
 
         await newUser.save()
-        res.status(201).json({ status: true, user: _.pick(newUser, ['fullName', 'email', 'username', 'verified', 'createdAt']) })
+        const access_token = await createToken(newUser._id)
+        res.status(201).json({ status: true, access_token, user: _.pick(newUser, ['fullName', 'email', 'username', 'verified', 'createdAt']) })
     } catch (error) {
         console.log('error creating user', error.message)
         next(errorResponse(500, 'Unexpected error occurred'))
@@ -44,7 +46,7 @@ export const requestVerifyToken = async (req, res, next) => {
 
         let { userId } = req.body
         let user = await User.findById(userId)
-        if (!user) return res.status(404).json({status:false, message:'user was not found'})
+        if (!user) return res.status(404).json({ status: false, message: 'user was not found' })
 
         let token = new Token({
             userId: user._id,
@@ -71,7 +73,7 @@ export const requestVerifyToken = async (req, res, next) => {
 
     } catch (error) {
         console.log('error requesting verifyToken', error.message)
-        res.status(500).json({status:false, message:'an error occurred'})
+        res.status(500).json({ status: false, message: 'an error occurred' })
     }
 }
 

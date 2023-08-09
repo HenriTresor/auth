@@ -9,25 +9,21 @@ const loginUser = async (req, res, next) => {
     try {
 
         let { email, password } = req.body
-        if (!email || !password) return next(errorResponse(400, 'provide email address or username and password'))
+        if (!email || !password) return res.status(400).json({ status: false, message: 'provide email address and password' })
 
         // check if the user exists
 
-        let user = await User.findOne({email}).populate('followers').populate('followees')
-        if (!user) return next(errorResponse(404, `user ${email} was not found`))
+        let user = await User.findOne({ email })
+        if (!user) return res.status(404).json({ status: false, message: 'account not found. Try again.' })
 
         // compare passwords
 
-        const isPasswordMatch = compare(password, user.password)
-        if (!isPasswordMatch) return next(errorResponse(403, `invalid email address or password`))
+        const isPasswordMatch = await compare(password, user.password)
+        if (!isPasswordMatch) return res.status(400).json({ status: false, message: 'invalid email address or password' })
 
         // create token and send it in cookies
 
         const token = await createToken(user._id)
-        res.cookie('access_token', token, {
-            maxAge: 60 * 60 * 3600 * 24 * 7,
-            httpOnly: true
-        })
         // respond with user data
 
         res.status(200).json({
@@ -38,7 +34,7 @@ const loginUser = async (req, res, next) => {
 
     } catch (error) {
         console.log("error logging in", error.message)
-        next(errorResponse(500, 'unexpected error occurred'))
+        res.status(500).json({ status: false, message: 'an error occurred' })
     }
 }
 

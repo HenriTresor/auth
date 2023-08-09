@@ -14,7 +14,7 @@ export const createUser = async (req, res, next) => {
         const { value, error } = UserValidObject.validate(req.body)
 
         if (error) {
-            return next(errorResponse(400, error.details[0].message))
+            return res.status(400).json({status:false, message:error.details[0].message})
         }
         // check if user already exists
 
@@ -34,7 +34,7 @@ export const createUser = async (req, res, next) => {
 
         await newUser.save()
         const access_token = await createToken(newUser._id)
-        res.status(201).json({ status: true, access_token, user: _.pick(newUser, ['fullName', 'email', 'username', 'verified', 'createdAt']) })
+        res.status(201).json({ status: true, access_token, user: _.pick(newUser, ['_id','fullName', 'email', 'username', 'verified', 'createdAt']) })
     } catch (error) {
         console.log('error creating user', error.message)
         next(errorResponse(500, 'Unexpected error occurred'))

@@ -102,7 +102,7 @@ export const verifyAccount = async (req, res, next) => {
             message: 'invalid link'
         });
 
-        await User.updateOne({ _id: user._id, verified: true });
+        await User.updateOne({ _id: user._id }, {verified: true });
         await Token.findByIdAndRemove(token._id);
 
         res.json({

@@ -105,10 +105,7 @@ export const verifyAccount = async (req, res, next) => {
         await User.updateOne({ _id: user._id }, {verified: true });
         await Token.findByIdAndRemove(token._id);
 
-        res.json({
-            status: true,
-            message: 'email verified successfully'
-        });
+        res.redirect('https://auth-cyan-phi.vercel.app/')
     } catch (error) {
         console.log(error.message)
         res.status(500).send("An error occured");

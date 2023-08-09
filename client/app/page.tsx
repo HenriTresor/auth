@@ -13,7 +13,7 @@ export default function Home() {
   })
 
   const getUser = async () => {
-    const res = await fetch('http://localhost:4000/api/v1/auth/profile', {
+    const res = await fetch('https://auth-server-dui2.onrender.com/api/v1/auth/profile', {
       method: 'GET',
       headers: {
         'authorization': `Beater ${localStorage.getItem('access_token')}`

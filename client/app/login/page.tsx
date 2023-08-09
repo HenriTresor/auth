@@ -27,7 +27,7 @@ function Login({ }: Props) {
     const handleSubmit = async () => {
         setIsLoading(true)
         try {
-            const res = await fetch('http://localhost:4000/api/v1/auth/login', {
+            const res = await fetch('https://auth-server-dui2.onrender.com/api/v1/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
